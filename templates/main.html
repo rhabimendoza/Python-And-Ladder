@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <!--LOGO-->
+        <link href="../static/logo.png" rel="icon"> 
+
+        <!--VIEWPORT-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!--TITLE-->
+        <title>
+            {% block title %}{% endblock title %}
+        </title>
+        
+        <!--BOOTSTRAP -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>     
+        
+        <!--GOOGLE FONTS-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Source+Sans+3:wght@600&family=Yeseva+One&display=swap" rel="stylesheet">
+        
+        <!--HEAD-->
+        {% block head %}{% endblock head %}
+        
+        <!--STYLE-->
+        <style>
+            body{
+                background-color: #1d364e;
+            }
+
+            .css-selector{
+                font-family: 'Amatic SC', sans-serif;
+                font-family: 'Source Sans 3', sans-serif;
+                font-family: 'Yeseva One', serif;
+            }
+
+            .nav-title{
+                font-family: 'Source Sans 3', sans-serif;
+                font-weight: bolder;
+                font-size: xx-large;
+                color: white;
+            }
+
+            .nav-sub{
+                font-family: 'Amatic SC', sans-serif;
+                font-weight: bold;
+                font-size: larger;
+                color: white;
+            }
+
+            button, input{
+                border: none;
+                background-color: white;
+                color: #1d364e;
+                font-size: small;
+                border-radius: 3px;
+                padding: 3px;
+                font-weight: bold;
+                margin: 1px;
+                height: 30px;
+            }
+
+            button:hover{
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <!--NAVBAR-->
+        <nav class="navbar navbar-expand-sm p-3">
+            <div class="container-fluid">
+                <a class="navbar-brand">
+                    <p class="nav-title">PaL</p>
+                </a>
+                <button class="navbar-toggler" style="background-color: white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li>
+                            <a class="nav-link nav-sub mx-4" href="/">
+                                Home
+                            </a>
+                        </li>  
+                        <li>
+                            <a class="nav-link nav-sub mx-4" href="/documentation">
+                                Documentation
+                            </a>
+                        </li>    
+                        <li>
+                            <a class="nav-link nav-sub mx-4" href="/analyze">
+                                Analyze
+                            </a>
+                        </li>  
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!--BODY-->
+        {% block content %}{% endblock content %}
+        
+        <!--BOOTSTRAP-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,146 @@
+{% extends "main.html" %}
+
+{% block title %}
+    Lexical Analyzer
+{% endblock title %}
+
+{% block head %}
+<style>
+    .edit-name{
+        font-family: 'Yeseva One', serif;
+        font-size: 20px;
+        color: white;
+        overflow-wrap: break-word;
+    }
+
+    #input-code{
+        height: 360px;
+    }
+
+    #output-code, #error-code{
+        height: 138px;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col col-12 col-md-6">
+            <h3 class="edit-name mt-2">Input Code</h3>
+            <div id="input-code" class="m-2"></div>
+            <button onclick="clearCode()">Clear</button>
+            <button onclick="analyzeCode()">Analyze Code</button>
+            <input type="file" id="fileInput" accept=".ppal">
+        </div>
+        <div class="col col-12 col-md-6">
+            <div class="col">
+                <div>
+                    <h3 class="edit-name mt-2">Symbol Table</h3>
+                    <div id="output-code" class="m-2"></div>
+                    <button onclick="saveCode()">Save</button>
+                </div>
+                <div>
+                    <h3 class="edit-name mt-2">Error Table</h3>
+                    <div id="error-code" class="m-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    var editor1 = ace.edit("input-code");
+    editor1.setTheme("ace/theme/monokai");
+    editor1.session.setMode("ace/mode/plain_text");
+    editor1.getSession().setUseWorker(false);
+    editor1.getSession().setUseSoftTabs(true);
+    editor1.getSession().setTabSize(4);
+    editor1.setShowPrintMargin(false);
+
+    var editor2 = ace.edit("output-code");
+    editor2.setTheme("ace/theme/monokai");
+    editor2.session.setMode("ace/mode/plain_text");
+    editor2.getSession().setUseWorker(false);
+    editor2.getSession().setUseSoftTabs(true);
+    editor2.getSession().setTabSize(4);
+    editor2.setShowPrintMargin(false);
+    editor2.setReadOnly(true);
+
+    var editor3 = ace.edit("error-code");
+    editor3.setTheme("ace/theme/monokai");
+    editor3.session.setMode("ace/mode/plain_text");
+    editor3.getSession().setUseWorker(false);
+    editor3.getSession().setUseSoftTabs(true);
+    editor3.getSession().setTabSize(4);
+    editor3.setShowPrintMargin(false);
+    editor3.setReadOnly(true);
+    
+    function clearCode(){
+        editor1.setValue("", -1);
+        editor2.setValue("", -1);
+        editor3.setValue("", -1);
+        document.getElementById("fileInput").value = "";
+    }
+
+    document.getElementById("fileInput").addEventListener("change", fileUpload);
+
+    function fileUpload(){
+        var f = document.getElementById("fileInput");
+        var file = f.files[0];
+
+        if(file){
+
+            var allowed = ["ppal"];
+            var filename = file.name;
+            var extenstion = filename.split(".").pop().toLowerCase();
+
+            if(allowed.indexOf(extenstion) === -1){
+                alert("Invalid file format");
+                f.value = "";
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(e){
+                var contents = e.target.result;
+                contents = contents.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+                editor1.setValue(contents);
+            };
+            reader.readAsText(file);
+        }
+        else{
+            alert("Invalid file");
+        }
+    }
+
+    function analyzeCode(){
+        var code = editor1.getValue();
+        code = code.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/analyze_code", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                var response = JSON.parse(xhr.responseText);
+                editor2.setValue(response.lexical);
+                editor3.setValue(response.syntax);
+            }
+        };
+        xhr.send(JSON.stringify({code:code}));
+    }
+
+    function saveCode(){
+        var content = editor2.getValue();
+        var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+        var a = document.createElement("a");
+        a.href = window.URL.createObjectURL(blob);
+        a.download = "SymbolTable.ppal";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+</script>
+{% endblock content %}

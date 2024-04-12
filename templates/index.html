@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block head %}
+<style>
+    .title-container{
+        margin: auto;
+        margin-left: 20px;
+    }
+
+    .home-tag{
+        font-family: 'Yeseva One', serif;
+        font-size: 55px;
+        color: white;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .logo-icon{
+        max-width: 75%;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col col-12 col-md-6 d-flex">
+            <div class="title-container">
+                <h1 class="home-tag">
+                    "PaL: Cultivating your child's path to tech through playful exploration!"
+                </h1>
+            </div>
+        </div>
+        <div class="col col-12 col-md-6 text-center">
+            <img class="logo-icon img-fluid mt-1" src="../static/logo.png">
+        </div>
+    </div>
+</div>
+{% endblock content %}
